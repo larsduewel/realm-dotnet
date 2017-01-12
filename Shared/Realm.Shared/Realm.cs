@@ -25,9 +25,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-#if __IOS__
-using ObjCRuntime;
-#endif
 using Realms.Exceptions;
 using Realms.Native;
 using Realms.Schema;
@@ -60,9 +57,7 @@ namespace Realms
             SynchronizationContextEventLoopSignal.Install();
         }
 
-        #if __IOS__
-        [MonoPInvokeCallback(typeof(NativeCommon.NotifyRealmCallback))]
-        #endif
+        [NativeCallback(typeof(NativeCommon.NotifyRealmCallback))]
         private static void NotifyRealmChanged(IntPtr realmHandle)
         {
             var gch = GCHandle.FromIntPtr(realmHandle);
